@@ -1951,9 +1951,5 @@ pushing families deeper into debt. AgriGuard bridges this gap with AI.
 
 ---
 
-### Team — VIT Bhopal University
 
-**EPICS: Engineering Projects in Community Service**
-
-Supervisor: Dr. Anupam Sen
     """)
