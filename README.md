@@ -1,4 +1,4 @@
-griGuard  demonstrates  that  deep  learning  can  effectively  scale  expert-level  crop  disease 
+AgriGuard  demonstrates  that  deep  learning  can  effectively  scale  expert-level  crop  disease 
 diagnosis  to  millions  of  Indian  smallholder  farmers  who  lack  timely  access  to  agronomic 
 advice. The custom CNN achieves 95.08% validation accuracy on 38 disease classes, sufficient 
 for practical deployment. However, the true innovation is not the classification model, but the 
