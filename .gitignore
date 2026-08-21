@@ -1,0 +1,38 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+*.env
+
+# Python / Pycache
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+.pytest_cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large Datasets (PlantVillage full dataset)
+train/
+valid/
+test/
+dataset/
+Plant_Disease_Dataset/
+*.zip
+*.tar.gz
+
+# Redundant Large Model Weights (Keep trained_model.keras for deployment)
+trained_model.h5
+best_model.weights.h5
+best_model.keras
+
+# OS Specific
+.DS_Store
+Thumbs.db
+desktop.ini

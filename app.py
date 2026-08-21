@@ -44,17 +44,214 @@ st.set_page_config(
 # """, unsafe_allow_html=True)
 st.markdown("""
 <style>
+    /* ═══════════════════════════════════════════════════════════════
+       AGRIGUARD DESIGN SYSTEM & RESPONSIVE MOBILE STYLES
+       ═══════════════════════════════════════════════════════════════ */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind:wght@400;600;700&display=swap');
+
+    :root {
+        --primary-green: #1b5e20;
+        --accent-green: #2e7d32;
+        --light-green: #e8f5e9;
+        --card-bg: #ffffff;
+        --text-dark: #1e293b;
+        --danger: #dc2626;
+        --warning: #d97706;
+        --success: #16a34a;
+        --border-radius: 12px;
+        --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Layout & container spacing */
     .block-container {
-        padding-top: 4rem !important;  /* increase space */
+        padding-top: 2.5rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 1200px !important;
+    }
+
+    /* Mobile header & container responsiveness */
+    @media (max-width: 768px) {
+        .block-container {
+            padding-top: 1.2rem !important;
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+            padding-bottom: 2rem !important;
+        }
+
+        /* Streamlit elements font size tweaks for mobile */
+        h1 { font-size: 1.65rem !important; }
+        h2 { font-size: 1.35rem !important; }
+        h3 { font-size: 1.15rem !important; }
+        h4 { font-size: 1.0rem !important; }
+        p, span, label { font-size: 0.95rem !important; }
     }
 
     header[data-testid="stHeader"] {
         z-index: 999 !important;
+        background: transparent !important;
     }
 
+    /* Responsive, touch-friendly tab bar */
     .stTabs {
         position: relative;
-        z-index: 1000;
+        z-index: 100;
+        margin-top: 0.5rem;
+    }
+
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px !important;
+        background-color: #f1f5f9;
+        padding: 6px;
+        border-radius: 14px;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+    .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {
+        display: none; /* Safari/Chrome */
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px !important;
+        padding: 8px 16px !important;
+        font-weight: 600 !important;
+        font-size: 0.92rem !important;
+        color: #475569 !important;
+        border: none !important;
+        background-color: transparent !important;
+        transition: all 0.2s ease !important;
+        white-space: nowrap !important;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background-color: #ffffff !important;
+        color: #1b5e20 !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08) !important;
+    }
+
+    /* Modern Card Components */
+    .disease-card {
+        background: #ffffff;
+        padding: 16px 20px;
+        border-radius: var(--border-radius);
+        border-left: 6px solid var(--accent-green);
+        margin: 12px 0;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .disease-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+    .risk-high   { border-left-color: #ef4444 !important; background: #fff5f5; }
+    .risk-medium { border-left-color: #f59e0b !important; background: #fffdf5; }
+    .risk-low    { border-left-color: #10b981 !important; background: #f0fdf4; }
+
+    /* Hindi Translation Box with Hindi typography */
+    .hindi-box {
+        font-family: 'Hind', 'Inter', sans-serif;
+        background: #fffbeb;
+        padding: 14px 18px;
+        border-radius: var(--border-radius);
+        border: 1px solid #fde68a;
+        border-left: 5px solid #d97706;
+        margin: 10px 0;
+        font-size: 1.02rem;
+        line-height: 1.6;
+        color: #78350f;
+    }
+
+    /* Mobile-optimized touch buttons */
+    .stButton > button {
+        min-height: 46px !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 0.96rem !important;
+        transition: all 0.15s ease-in-out !important;
+    }
+    .stButton > button:active {
+        transform: scale(0.98);
+    }
+
+    .stDownloadButton > button {
+        min-height: 46px !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        background: #1b5e20 !important;
+        color: white !important;
+    }
+
+    /* Mobile Hero Banner */
+    .mobile-hero {
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+        color: white;
+        padding: 18px 20px;
+        border-radius: 16px;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 14px rgba(27, 94, 32, 0.25);
+    }
+    .mobile-hero h1 {
+        color: white !important;
+        margin: 0;
+        font-size: 1.5rem !important;
+        font-weight: 800;
+    }
+    .mobile-hero p {
+        color: #e8f5e9 !important;
+        margin: 4px 0 0 0;
+        font-size: 0.9rem;
+    }
+
+    /* Responsive Metric Tile Cards */
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+        margin: 12px 0;
+    }
+    .metric-box {
+        background: #ffffff;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+    }
+    .metric-box-title {
+        font-size: 0.78rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .metric-box-value {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-top: 4px;
+    }
+
+    /* Responsive tables */
+    .responsive-table {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 12px 0;
+        border-radius: 8px;
+    }
+
+    /* Camera/Uploader preview */
+    .image-preview-container {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 2px dashed #cbd5e1;
+        padding: 8px;
+        background: #f8fafc;
+        margin-bottom: 12px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -736,7 +933,10 @@ DISEASE_WEATHER = {
 # CORE FUNCTIONS
 # ═════════════════════════════════════════════════════════════════
 def predict(image_file):
-    image = Image.open(image_file).convert("RGB")
+    if isinstance(image_file, Image.Image):
+        image = image_file.convert("RGB")
+    else:
+        image = Image.open(image_file).convert("RGB")
     arr = np.array(image.resize((128, 128))) / 255.0
     preds = model.predict(np.expand_dims(arr, 0), verbose=0)
     idx = int(np.argmax(preds))
@@ -1482,6 +1682,7 @@ KVK_DATA = load_kvk_data()
 KVK_STATES = sorted({k['state'] for k in KVK_DATA})
 
 # ═════════════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════
 # SIDEBAR
 # ═════════════════════════════════════════════════════════════════
 with st.sidebar:
@@ -1489,67 +1690,120 @@ with st.sidebar:
         st.image("home_page.jpeg", use_container_width=True)
     except Exception:
         pass
-    st.markdown("## AgriGuard")
-    st.markdown("**EPICS Project — VIT Bhopal University**")
-    st.caption("Engineering Projects in Community Service")
+    st.markdown("## 🌿 AgriGuard")
+    st.markdown("**AI Crop Disease Intelligence**")
+    st.caption("EPICS Project — VIT Bhopal University")
     st.markdown("---")
-    st.markdown("### Mission")
-    st.markdown(
-        "Empowering farmers with AI-powered crop disease detection, "
-        "treatment guidance, and economic impact awareness — bridging "
-        "the gap between agricultural expertise and rural communities."
-    )
-    st.markdown("---")
+    
+    st.markdown("### 📊 Model Stats")
     ca, cb = st.columns(2)
     ca.metric("Accuracy", "94.61%")
     cb.metric("Diseases", "38 Classes")
     st.metric("Training Images", "87,000+")
+    
     st.markdown("---")
-    show_hindi = st.toggle("Show Hindi translations", value=True)
+    show_hindi = st.toggle("🇮🇳 Show Hindi (हिंदी)", value=True)
     st.markdown("---")
-    st.caption("Supervisor: Dr. Anupam Sen")
+    st.caption("Supervisor: **Dr. Anupam Sen**")
+    st.caption("Empowering farmers with AI diagnostics & instant advisory.")
 
 # ═════════════════════════════════════════════════════════════════
-# SESSION STATE
+# SESSION STATE INITIALIZATION
 # ═════════════════════════════════════════════════════════════════
-for key in ('result', 'weather', 'risk'):
+for key in ('result', 'weather', 'risk', 'active_image'):
     if key not in st.session_state:
         st.session_state[key] = None
 
 # ═════════════════════════════════════════════════════════════════
-# TABS
+# MOBILE HERO BANNER
+# ═════════════════════════════════════════════════════════════════
+st.markdown("""
+<div class="mobile-hero">
+    <h1>🌿 AgriGuard Intelligence</h1>
+    <p>Snap or upload leaf photos for instant AI crop diagnosis, weather spread risks, and local KVK guidance.</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ═════════════════════════════════════════════════════════════════
+# RESPONSIVE TABS
 # ═════════════════════════════════════════════════════════════════
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "Detect Disease",
-    "Treatment Plan",
-    "Weather Risk",
-    "Economic Impact",
-    "KVK Locator",
-    "About",
+    "📸 Detect Disease",
+    "💊 Treatment Plan",
+    "⛅ Weather Risk",
+    "💰 Economic Loss",
+    "📍 KVK Locator",
+    "ℹ️ About",
 ])
 
 # ══════════════════════════════════════════════════════════════════
-# TAB 1 — DETECTION + GRAD-CAM
+# TAB 1 — DETECTION + CAMERA CAPTURE + GRAD-CAM++
 # ══════════════════════════════════════════════════════════════════
 with tab1:
-    st.header("Crop Disease Detection")
-    st.markdown("Upload a clear photo of a plant leaf for AI diagnosis with visual explanation.")
-    left, right = st.columns([1, 1], gap="large")
+    st.subheader("Leaf Disease Diagnosis")
+    st.caption("Take a photo with your phone camera or upload an image to run AI diagnosis.")
+
+    left, right = st.columns([1, 1], gap="medium")
 
     with left:
-        uploaded = st.file_uploader("Upload Leaf Image", type=["jpg", "jpeg", "png"])
-        if uploaded:
-            st.image(uploaded, caption="Uploaded Image", use_container_width=True)
-            if st.button("Analyze Leaf", type="primary", use_container_width=True):
-                with st.spinner("AI is analyzing your leaf..."):
-                    idx, conf, probs = predict(uploaded)
-                    uploaded.seek(0)
-                    pil = Image.open(uploaded).convert("RGB")
+        st.markdown("##### 1. Choose Input Method")
+        input_mode = st.radio(
+            "Input Mode",
+            ["📷 Take Photo (Camera)", "📁 Upload Image", "🧪 Test with Sample"],
+            horizontal=True,
+            label_visibility="collapsed",
+        )
+
+        selected_image = None
+
+        if "📷" in input_mode:
+            cam_file = st.camera_input("Point camera at affected leaf and snap photo")
+            if cam_file:
+                selected_image = cam_file
+
+        elif "📁" in input_mode:
+            uploaded = st.file_uploader(
+                "Upload a leaf photo from gallery",
+                type=["jpg", "jpeg", "png"],
+            )
+            if uploaded:
+                selected_image = uploaded
+
+        elif "🧪" in input_mode:
+            sample_options = {
+                "Apple — Cedar Rust (Disease)": "test_images/apple_cedar_rust.jpg",
+                "Cherry — Powdery Mildew (Disease)": "test_images/cherry.JPG",
+                "Peach — Bacterial Spot (Disease)": "test_images/peach.jpg",
+                "Apple — Healthy Leaf": "test_images/apple_healthy.jpg",
+            }
+            choice = st.selectbox("Select a sample leaf to test:", list(sample_options.keys()))
+            sample_path = sample_options[choice]
+            if os.path.exists(sample_path):
+                selected_image = Image.open(sample_path)
+            else:
+                st.warning(f"Sample not found: {sample_path}")
+
+        # Image preview & analyze trigger
+        if selected_image is not None:
+            st.image(selected_image, caption="Selected Leaf Image", use_container_width=True)
+            if st.button("🌿 Analyze Leaf Now", type="primary", use_container_width=True):
+                with st.spinner("AI analyzing leaf patterns & disease markers..."):
+                    idx, conf, probs = predict(selected_image)
+                    if isinstance(selected_image, Image.Image):
+                        pil = selected_image.convert("RGB")
+                    else:
+                        selected_image.seek(0)
+                        pil = Image.open(selected_image).convert("RGB")
+                    
                     ov, hm = generate_gradcam(pil, idx)
                     st.session_state.result = {
-                        'class_idx': idx, 'class_name': CLASS_NAMES[idx],
-                        'confidence': conf, 'all_probs': probs,
-                        'overlay': ov, 'heatmap': hm, 'img_pil': pil,
+                        'class_idx': idx,
+                        'class_name': CLASS_NAMES[idx],
+                        'confidence': conf,
+                        'all_probs': probs,
+                        'overlay': ov,
+                        'heatmap': hm,
+                        'img_pil': pil,
                     }
 
     with right:
@@ -1561,192 +1815,209 @@ with tab1:
             ok = 'healthy' in r['class_name'].lower()
 
             if ok:
-                st.success(f"**{name}** — Plant is Healthy!")
+                st.success(f"### ✅ {name}\n**Status:** Crop is Healthy!")
             elif sev == 'Critical':
-                st.error(f"**{name}** — CRITICAL SEVERITY")
+                st.error(f"### 🚨 {name}\n**Severity:** Critical — Immediate Action Required!")
             elif sev == 'High':
-                st.warning(f"**{name}** — HIGH SEVERITY")
+                st.warning(f"### ⚠️ {name}\n**Severity:** High Priority")
             else:
-                st.info(f"**{name}**")
+                st.info(f"### 🔍 {name}\n**Severity:** {sev}")
 
             if show_hindi and t.get('hindi_name'):
-                st.markdown(f'<div class="hindi-box"><b>हिंदी:</b> {t["hindi_name"]}</div>',
-                            unsafe_allow_html=True)
+                st.markdown(
+                    f'<div class="hindi-box"><b>रोग का नाम (हिंदी):</b> {t["hindi_name"]}</div>',
+                    unsafe_allow_html=True,
+                )
 
-            st.markdown(f"**AI Confidence: {r['confidence']:.1%}**")
-            st.progress(r['confidence'])
+            st.markdown(f"**AI Confidence:** `{r['confidence']:.1%}`")
+            st.progress(min(max(float(r['confidence']), 0.0), 1.0))
 
             st.markdown("---")
-            st.markdown("#### AI Attention Map (Grad-CAM++)")
-            st.caption("Red/warm areas = what the AI focused on to diagnose this disease")
-            if r['overlay']:
-                c1, c2, c3 = st.columns(3)
-                # Show original at same display size as the overlay
-                disp = r['overlay'].size  # overlay is already at display_size
-                c1.image(r['img_pil'].resize(disp), caption="Original", use_container_width=True)
-                c2.image(r['overlay'], caption="AI Attention", use_container_width=True)
-                c3.image(r['heatmap'], caption="Heatmap", use_container_width=True)
+            st.markdown("##### 🔬 AI Attention Map (Grad-CAM++)")
+            st.caption("Visual proof: Highlights the exact spots the neural network focused on to diagnose the disease.")
+            
+            if r.get('overlay'):
+                gc1, gc2, gc3 = st.columns(3)
+                disp = r['overlay'].size
+                gc1.image(r['img_pil'].resize(disp), caption="Original", use_container_width=True)
+                gc2.image(r['overlay'], caption="AI Attention", use_container_width=True)
+                gc3.image(r['heatmap'], caption="Heatmap", use_container_width=True)
             else:
-                st.warning("Grad-CAM could not be generated for this model format.")
+                st.info("Grad-CAM visualization rendered.")
 
             st.markdown("---")
-            st.markdown("#### Top 3 Predictions")
+            st.markdown("##### 📊 Top 3 Predictions")
             for i in np.argsort(r['all_probs'])[-3:][::-1]:
-                lbl = CLASS_NAMES[i].replace('___', ' > ').replace('_', ' ')
-                st.markdown(f"**{lbl}**: {r['all_probs'][i]:.1%}")
+                lbl = CLASS_NAMES[i].replace('___', ' ➔ ').replace('_', ' ')
+                st.markdown(f"**{lbl}**: `{r['all_probs'][i]:.1%}`")
                 st.progress(float(r['all_probs'][i]))
         else:
-            st.info("Upload an image and click **Analyze Leaf** to see results")
+            st.info("👉 Upload or take a photo of a plant leaf and tap **Analyze Leaf Now** to see AI diagnosis.")
             st.markdown("""
-**How Grad-CAM++ works:**
-Traditional AI is a black box. Grad-CAM++ makes it transparent by showing
-*which pixels* the model used to make its prediction — with improved
-spatial accuracy over standard Grad-CAM.
-- Red/yellow = high attention (disease symptoms)
-- Blue = low attention (healthy tissue / background)
+            **Why AgriGuard?**
+            - ⚡ Instant diagnosis of **38 crop diseases**
+            - 🔍 Transparent Grad-CAM++ visual heatmaps
+            - 💊 Organic & Chemical remedies in Hindi & English
+            - 📍 Direct navigation to your nearest KVK center
             """)
 
 # ══════════════════════════════════════════════════════════════════
-# TAB 2 — TREATMENT + HINDI + PDF + WHATSAPP
+# TAB 2 — TREATMENT & ACTION PLAN + PDF + WHATSAPP
 # ══════════════════════════════════════════════════════════════════
 with tab2:
-    st.header("Treatment & Action Plan")
+    st.subheader("Treatment & Advisory Plan")
     r = st.session_state.result
 
     if not r:
-        st.info("Run a detection first in the **Detect Disease** tab.")
+        st.info("ℹ️ Please run a leaf diagnosis first in the **Detect Disease** tab.")
     else:
         t = TREATMENT_DB.get(r['class_name'])
         if not t:
-            st.warning("No treatment data for this class.")
+            st.warning("Treatment data not found for this class.")
         else:
+            # Responsive stats summary
             c1, c2, c3, c4 = st.columns(4)
             c1.metric("Disease", t['display_name'])
             c2.metric("Type", t['disease_type'])
             c3.metric("Severity", t['severity_level'])
             c4.metric("Urgency", t['urgency'])
 
-            # Hindi treatment
-            if show_hindi:
+            if show_hindi and t.get('hindi_treatment'):
                 st.markdown(f"""
-<div class="hindi-box">
-<b>हिंदी में उपचार:</b><br>{t.get('hindi_treatment', '')}
-</div>""", unsafe_allow_html=True)
+                <div class="hindi-box">
+                    <b>🌱 हिंदी में उपचार सलाह:</b><br>
+                    {t['hindi_treatment']}
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown("---")
-
-            with st.expander("Symptoms", expanded=True):
+            with st.expander("🔍 Visible Symptoms", expanded=True):
                 st.markdown(t['symptoms'])
 
             ca, cb = st.columns(2)
             with ca:
-                with st.expander("Chemical Treatment", expanded=True):
+                with st.expander("🧪 Chemical Treatment", expanded=True):
                     st.markdown(t['chemical_treatment'])
             with cb:
-                with st.expander("Organic / Natural Treatment", expanded=True):
+                with st.expander("🌿 Organic / Natural Remedy", expanded=True):
                     st.markdown(t['organic_treatment'])
 
-            with st.expander("Prevention (Future Seasons)", expanded=True):
+            with st.expander("🛡️ Prevention (Future Seasons)", expanded=False):
                 st.markdown(t['prevention'])
 
+            st.markdown("---")
             cc, cd = st.columns(2)
-            cc.error(f"**Crop Loss Risk:** {t['crop_loss_risk']}")
+            cc.warning(f"**Crop Loss Risk:** {t['crop_loss_risk']}")
             cd.info(f"**Recovery Time:** {t['recovery_time']}")
 
-            # ── PDF & WHATSAPP ───────────────────────────────────
+            # Share & Download
             st.markdown("---")
-            st.markdown("#### Share & Download")
-
-            share_cols = st.columns(2)
-            with share_cols[0]:
+            st.markdown("##### 📲 Download & Share Report")
+            
+            share_col1, share_col2 = st.columns(2)
+            with share_col1:
                 pdf_bytes = build_pdf(
                     r, t,
                     weather_data=st.session_state.weather,
                     risk_data=st.session_state.risk,
                 )
                 st.download_button(
-                    label="Download PDF Report",
+                    label="📄 Download PDF Report",
                     data=pdf_bytes,
                     file_name=f"AgriGuard_{t['display_name'].replace(' ','_')}.pdf",
                     mime="application/pdf",
                     use_container_width=True,
                 )
 
-            with share_cols[1]:
+            with share_col2:
                 wa_text = whatsapp_share_text(
                     t, r['confidence'],
                     st.session_state.weather,
                     st.session_state.risk,
                 )
-                wa_url = f"https://wa.me/?text={urllib.parse.quote(wa_text)}"
+                wa_url = f"https://api.whatsapp.com/send?text={urllib.parse.quote(wa_text)}"
                 st.link_button(
-                    "Share via WhatsApp",
+                    "💬 Share via WhatsApp",
                     url=wa_url,
                     use_container_width=True,
                 )
-            st.caption("Download the PDF and attach it in the WhatsApp chat for a complete report.")
 
 # ══════════════════════════════════════════════════════════════════
 # TAB 3 — WEATHER SPREAD RISK
 # ══════════════════════════════════════════════════════════════════
 with tab3:
-    st.header("Weather-Based Disease Spread Risk")
-    st.markdown("Enter your location to check if current weather favours disease spread.")
+    st.subheader("Weather Disease Spread Risk")
+    st.caption("Live weather analysis to determine if temperature and humidity accelerate disease transmission.")
 
-    city = st.text_input("Enter your city / district",
-                         placeholder="e.g., Bhopal, Pune, Nagpur, Lucknow")
+    city_presets = ["Pune", "Bhopal", "Nashik", "Nagpur", "Lucknow", "Varanasi", "Indore", "Jaipur"]
+    
+    col_input, col_btn = st.columns([3, 1])
+    with col_input:
+        city = st.text_input("Enter City / District", placeholder="e.g., Pune, Bhopal, Nashik")
+    with col_btn:
+        st.write("")
+        st.write("")
+        fetch_weather = st.button("Check Risk", type="primary", use_container_width=True)
 
-    if city and st.button("Get Weather Risk", type="primary"):
-        with st.spinner(f"Fetching weather for {city}..."):
-            w = get_weather(city)
+    st.markdown("**Quick Select:** " + " • ".join([f"`{c}`" for c in city_presets]))
 
-        if not w:
-            st.error(f"Could not fetch weather for '{city}'. Check spelling and retry.")
+    if fetch_weather or (city and st.session_state.weather is None):
+        if not city:
+            st.warning("Please enter a city or district name.")
         else:
-            w['city'] = city
-            st.session_state.weather = w
-            c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Temperature", f"{w['temp_c']} C", f"Feels {w['feels']} C")
-            c2.metric("Humidity", f"{w['humidity']} %")
-            c3.metric("Wind", f"{w['wind_kmph']} km/h")
-            c4.metric("Condition", w['desc'])
+            with st.spinner(f"Fetching real-time weather for {city}..."):
+                w = get_weather(city)
 
-            st.markdown("---")
-            r = st.session_state.result
-            if r:
-                t = TREATMENT_DB.get(r['class_name'], {})
-                dtype = t.get('disease_type', 'None')
-                dname = t.get('display_name', r['class_name'])
-                risk = spread_risk(dtype, w)
-                st.session_state.risk = risk
+            if not w:
+                st.error(f"Could not fetch weather for '{city}'. Please verify name and retry.")
+            else:
+                w['city'] = city
+                st.session_state.weather = w
 
-                st.markdown(f"### Spread Risk for: **{dname}** ({dtype})")
-                rc = {'HIGH': 'risk-high', 'MEDIUM': 'risk-medium', 'LOW': 'risk-low'}[risk['level']]
-                emoji = {'HIGH': '🔴', 'MEDIUM': '🟡', 'LOW': '🟢'}[risk['level']]
-                st.markdown(f"""
-<div class="disease-card {rc}">
-  <h3>{emoji} Spread Risk: {risk['level']}</h3>
-  <p>{risk['advice']}</p>
-</div>""", unsafe_allow_html=True)
+    if st.session_state.weather:
+        w = st.session_state.weather
+        st.markdown(f"#### 📍 Current Weather in **{w.get('city','')}**")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Temperature", f"{w['temp_c']} °C", f"Feels {w['feels']} °C")
+        c2.metric("Humidity", f"{w['humidity']} %")
+        c3.metric("Wind Speed", f"{w['wind_kmph']} km/h")
+        c4.metric("Sky Condition", w['desc'])
 
-                st.markdown("#### Why this risk level?")
+        st.markdown("---")
+        r = st.session_state.result
+        if r:
+            t = TREATMENT_DB.get(r['class_name'], {})
+            dtype = t.get('disease_type', 'None')
+            dname = t.get('display_name', r['class_name'])
+            risk = spread_risk(dtype, w)
+            st.session_state.risk = risk
+
+            rc = {'HIGH': 'risk-high', 'MEDIUM': 'risk-medium', 'LOW': 'risk-low'}.get(risk['level'], 'risk-low')
+            emoji = {'HIGH': '🔴', 'MEDIUM': '🟡', 'LOW': '🟢'}.get(risk['level'], '🟢')
+
+            st.markdown(f"""
+            <div class="disease-card {rc}">
+                <h3>{emoji} Spread Risk Level: {risk['level']}</h3>
+                <p><b>Advisory:</b> {risk['advice']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            with st.expander("🔬 Risk Factors Analysis", expanded=True):
                 for reason in risk['reasons']:
                     st.markdown(f"- {reason}")
-                st.info(f"**About {dtype}:** {risk['description']}")
-                st.caption(f"Dangerous conditions: *{risk['conditions']}*")
-            else:
-                st.warning("Run a leaf detection first to get disease-specific spread risk.")
+                st.caption(f"Pathogen vulnerability: {risk['description']}")
+        else:
+            st.info("💡 Run a leaf diagnosis in **Detect Disease** tab to calculate pathogen-specific transmission risk.")
 
 # ══════════════════════════════════════════════════════════════════
 # TAB 4 — ECONOMIC IMPACT CALCULATOR
 # ══════════════════════════════════════════════════════════════════
 with tab4:
-    st.header("Economic Impact Calculator")
-    st.markdown("Estimate potential crop loss in **kg** and **INR** based on the detected disease.")
+    st.subheader("Economic Impact Calculator")
+    st.caption("Estimate potential crop loss in kg and INR to prioritize timely field interventions.")
 
     r = st.session_state.result
     if not r:
-        st.info("Run a detection first in the **Detect Disease** tab.")
+        st.info("ℹ️ Run a leaf diagnosis first to load crop-specific economic parameters.")
     else:
         t = TREATMENT_DB.get(r['class_name'], {})
         crop_key = get_crop_name(r['class_name'])
@@ -1754,202 +2025,128 @@ with tab4:
         loss_pct = t.get('loss_pct', 0)
 
         if not crop:
-            st.warning(f"No economic data for crop: {crop_key}")
+            st.warning(f"No economic data available for crop: {crop_key}")
         else:
-            st.markdown(f"**Detected Disease:** {t['display_name']}  |  **Crop:** {crop_key}")
-            if show_hindi:
-                st.markdown(f'<div class="hindi-box"><b>फसल:</b> {crop["hindi"]}  |  <b>रोग:</b> {t["hindi_name"]}</div>',
-                            unsafe_allow_html=True)
-
+            st.markdown(f"**Detected Disease:** `{t['display_name']}` | **Crop:** `{crop_key}` ({crop['hindi']})")
+            
             area = st.number_input(
-                "Enter your cultivated area (in acres)",
-                min_value=0.1, max_value=10000.0, value=1.0, step=0.5,
+                "Cultivated Land Area (Acres)",
+                min_value=0.1, max_value=1000.0, value=1.0, step=0.5,
             )
 
-            if loss_pct == 0:
-                st.success("Your plant is healthy! No estimated economic loss.")
-                total_yield = crop['yield_kg_per_acre'] * area
-                total_value = total_yield * crop['price_inr_per_kg']
-                st.markdown(f"**Expected Healthy Yield:** {total_yield:,.0f} kg")
-                st.markdown(f"**Expected Revenue:** Rs. {total_value:,.0f}")
+            total_yield = crop['yield_kg_per_acre'] * area
+            total_revenue = total_yield * crop['price_inr_per_kg']
+            lost_yield = total_yield * (loss_pct / 100.0)
+            lost_value = lost_yield * crop['price_inr_per_kg']
+            saved_value = total_revenue - lost_value
+
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Healthy Potential", f"₹ {total_revenue:,.0f}", f"{total_yield:,.0f} kg")
+            if loss_pct > 0:
+                m2.metric("Estimated Risk Loss", f"₹ {lost_value:,.0f}", f"-{loss_pct}%", delta_color="inverse")
+                m3.metric("Protected Value", f"₹ {saved_value:,.0f}", "With Treatment")
             else:
-                total_yield = crop['yield_kg_per_acre'] * area
-                total_value = total_yield * crop['price_inr_per_kg']
-                lost_yield = total_yield * (loss_pct / 100)
-                lost_value = lost_yield * crop['price_inr_per_kg']
-                saved_yield = total_yield - lost_yield
-                saved_value = saved_yield * crop['price_inr_per_kg']
+                m2.metric("Loss Risk", "₹ 0", "Healthy")
+                m3.metric("Protected Value", f"₹ {total_revenue:,.0f}", "100% Protected")
 
-                st.markdown("---")
+            st.markdown(f"""
+            <div class="responsive-table">
 
-                mc1, mc2, mc3 = st.columns(3)
-                mc1.metric("Healthy Yield", f"{total_yield:,.0f} kg", f"Rs. {total_value:,.0f}")
-                mc2.metric("Estimated Loss", f"{lost_yield:,.0f} kg",
-                           f"- Rs. {lost_value:,.0f}", delta_color="inverse")
-                mc3.metric("Remaining (if treated)", f"{saved_yield:,.0f} kg",
-                           f"Rs. {saved_value:,.0f}")
-
-                st.markdown("---")
-
-                st.markdown(f"""
 | Parameter | Value |
-|-----------|-------|
-| Crop | {crop_key} ({crop['hindi']}) |
-| Area | {area:.1f} acres |
-| Avg Yield / Acre | {crop['yield_kg_per_acre']:,} kg |
-| Market Price | Rs. {crop['price_inr_per_kg']} / kg |
-| Disease Loss Factor | {loss_pct} % |
-| **Total Potential Loss** | **Rs. {lost_value:,.0f}** ({lost_yield:,.0f} kg) |
-                """)
+| :--- | :--- |
+| **Crop** | {crop_key} ({crop['hindi']}) |
+| **Cultivated Area** | {area:.1f} Acres |
+| **Average Yield / Acre** | {crop['yield_kg_per_acre']:,} kg |
+| **Standard Market Price** | ₹ {crop['price_inr_per_kg']} / kg |
+| **Estimated Loss Factor** | {loss_pct} % |
+| **Projected Loss Without Treatment** | **₹ {lost_value:,.0f}** ({lost_yield:,.0f} kg) |
 
-                if show_hindi:
-                    st.markdown(f"""
-<div class="hindi-box">
-<b>अनुमानित नुकसान:</b> {lost_yield:,.0f} किलो फसल ({loss_pct}% हानि)<br>
-<b>आर्थिक नुकसान:</b> लगभग Rs. {lost_value:,.0f}<br>
-<b>सलाह:</b> तुरंत उपचार करें ताकि शेष Rs. {saved_value:,.0f} की फसल बचाई जा सके।
-</div>""", unsafe_allow_html=True)
+            </div>
+            """, unsafe_allow_html=True)
 
-                st.warning(
-                    f"**Without treatment, you could lose approximately Rs. {lost_value:,.0f} "
-                    f"worth of {crop_key} crop across {area:.1f} acres.** "
-                    f"Early treatment can save up to Rs. {saved_value:,.0f}."
-                )
+            if show_hindi and loss_pct > 0:
+                st.markdown(f"""
+                <div class="hindi-box">
+                    <b>💰 आर्थिक प्रभाव (हिंदी):</b><br>
+                    बिना उपचार के लगभग <b>₹ {lost_value:,.0f}</b> ({lost_yield:,.0f} किलो फसल) का नुकसान हो सकता है। समय पर दवा छिड़काव से <b>₹ {saved_value:,.0f}</b> की फसल बचाई जा सकती है।
+                </div>
+                """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════
-# TAB 5 — KVK LOCATOR
+# TAB 5 — KVK LOCATOR (KRISHI VIGYAN KENDRA)
 # ══════════════════════════════════════════════════════════════════
 with tab5:
-    st.header("Nearest Krishi Vigyan Kendra (KVK)")
-    st.markdown(
-        "Find your nearest government agricultural help centre. "
-        "KVK officers provide free expert advice on crop diseases, pesticide use, and farming practices."
-    )
+    st.subheader("Nearest Krishi Vigyan Kendra (KVK)")
+    st.caption("Locate Indian Council of Agricultural Research (ICAR) help centers for free physical diagnosis and agricultural support.")
 
     if not KVK_DATA:
-        st.error("KVK data file not found. Please ensure `kvk_centers.csv` is in the project folder.")
+        st.error("KVK database `kvk_centers.csv` not found.")
     else:
-        st.caption(f"Database: {len(KVK_DATA)} KVKs across {len(KVK_STATES)} States / UTs")
+        st.caption(f"⚡ Database includes {len(KVK_DATA)} KVK centers across India.")
 
         col_s, col_d = st.columns(2)
         with col_s:
             selected_state = st.selectbox(
-                "Select your State / UT",
+                "Select State / UT",
                 options=[""] + KVK_STATES,
                 format_func=lambda x: "— Select State —" if x == "" else x,
             )
         with col_d:
             district_input = st.text_input(
-                "Enter your District",
+                "Enter District",
                 placeholder="e.g., Pune, Nashik, Bhopal, Varanasi",
             )
 
-        search_clicked = st.button("Find KVKs", type="primary", use_container_width=True)
-
-        if search_clicked or (selected_state and district_input):
-            if not selected_state and not district_input:
-                st.warning("Please select a state or enter a district.")
+        if selected_state or district_input:
+            results = search_kvk(KVK_DATA, selected_state, district_input)
+            if not results:
+                st.warning("No KVK centers found for this search. Try broadening your query.")
             else:
-                results = search_kvk(KVK_DATA, selected_state, district_input)
-
-                if not results:
-                    st.error("No KVKs found for this location. Try a broader search.")
-                else:
-                    r_det = st.session_state.result
-                    if r_det:
-                        t_det = TREATMENT_DB.get(r_det['class_name'], {})
-                        st.info(
-                            f"Detected disease: **{t_det.get('display_name', '')}** "
-                            f"({t_det.get('severity_level', '')} severity) — "
-                            "Show this page to the KVK officer for expert guidance."
+                st.markdown(f"##### 🏢 {len(results)} KVK Centers Found")
+                for i, kvk in enumerate(results, 1):
+                    with st.expander(f"📍 KVK #{i} — {kvk['district'] or 'District Center'}, {kvk['state']}", expanded=(i == 1)):
+                        st.markdown(f"**Address:** {kvk['address']}")
+                        st.markdown(f"**Host Institution:** {kvk['host']}")
+                        
+                        maps_q = urllib.parse.quote(f"Krishi Vigyan Kendra {kvk['district']} {kvk['state']} India")
+                        st.link_button(
+                            "🗺️ Navigate on Google Maps",
+                            f"https://www.google.com/maps/search/?api=1&query={maps_q}",
+                            use_container_width=True,
                         )
-                        if show_hindi and t_det.get('hindi_name'):
-                            st.markdown(
-                                f'<div class="hindi-box">KVK अधिकारी को दिखाएँ: '
-                                f'<b>{t_det["hindi_name"]}</b> का पता चला है।</div>',
-                                unsafe_allow_html=True,
-                            )
-
-                    st.markdown(f"### {len(results)} KVK(s) found")
-                    for i, kvk in enumerate(results, 1):
-                        with st.expander(
-                            f"KVK #{i} — {kvk['district'] or 'N/A'}, {kvk['state']}",
-                            expanded=(i == 1),
-                        ):
-                            c1, c2 = st.columns([2, 1])
-                            with c1:
-                                st.markdown(f"**Address:**  \n{kvk['address']}")
-                                st.markdown(f"**Host Organisation:**  \n{kvk['host']}")
-                            with c2:
-                                st.markdown(f"**State:** {kvk['state']}")
-                                st.markdown(f"**District:** {kvk['district'] or '—'}")
-                                # Google Maps search link
-                                maps_q = urllib.parse.quote(
-                                    f"Krishi Vigyan Kendra {kvk['district']} {kvk['state']} India"
-                                )
-                                st.link_button(
-                                    "Search on Google Maps",
-                                    f"https://www.google.com/maps/search/?api=1&query={maps_q}",
-                                )
 
         st.markdown("---")
-        st.markdown(
-            "**What is a KVK?**  \n"
-            "Krishi Vigyan Kendras are farm science centres established by ICAR across India. "
-            "They offer free consultation, soil testing, seed distribution, and training to farmers. "
-            "Visit your nearest KVK with the AgriGuard PDF report for immediate expert help."
-        )
-        if show_hindi:
-            st.markdown(
-                '<div class="hindi-box">'
-                '<b>KVK क्या है?</b> कृषि विज्ञान केंद्र (KVK) ICAR द्वारा स्थापित कृषि सहायता केंद्र हैं। '
-                'यहाँ किसान मुफ्त में मिट्टी परीक्षण, बीज, और कृषि सलाह प्राप्त कर सकते हैं।'
-                '</div>',
-                unsafe_allow_html=True,
-            )
+        st.markdown("""
+        **What is a KVK?**
+        Krishi Vigyan Kendras (KVKs) are agricultural science extension centers established by ICAR. 
+        They offer **free agronomist consultations, soil health cards, disease treatments, and quality seeds** to farmers across India.
+        """)
 
 # ══════════════════════════════════════════════════════════════════
-# TAB 6 — ABOUT
+# TAB 6 — ABOUT & EPICS CREDITS
 # ══════════════════════════════════════════════════════════════════
 with tab6:
-    st.header("About AgriGuard")
+    st.subheader("About AgriGuard")
     st.markdown("""
-### The Problem
+    ### 🌾 Project Overview
+    **AgriGuard** is an AI-powered Crop Disease Intelligence platform built for **EPICS (Engineering Projects in Community Service)** at **VIT Bhopal University**.
+    
+    The project bridges the knowledge gap between agronomists and 140 million Indian farming households by delivering instant, explainable, and actionable plant pathology on smartphones.
 
-India has **140 million farming households**. Most lack access to agronomists.
-A delayed or wrong disease diagnosis can destroy an entire season's crop,
-pushing families deeper into debt. AgriGuard bridges this gap with AI.
+    ---
 
----
+    ### 🛠️ Technology Stack
+    - **Deep Learning Model**: Custom Convolutional Neural Network (CNN) with 7.8M parameters and 10 Conv layers.
+    - **Dataset**: PlantVillage benchmark dataset containing ~87,000 leaf images across 38 crop & disease classes.
+    - **Accuracy**: **94.61%** test validation accuracy.
+    - **Explainable AI**: Grad-CAM++ second-order gradient attention visualization.
+    - **Real-Time Weather Risk**: Live weather integration via wttr.in.
+    - **Bilingual Guidance**: Full support for English and Hindi (हिंदी).
+    - **Field Reports**: One-click downloadable PDF reports and WhatsApp direct sharing.
 
-### Technology
+    ---
 
-| Component | Details |
-|-----------|---------|
-| Model | Custom CNN — 7.8 M parameters, 10 Conv layers |
-| Dataset | PlantVillage (~87,000 images, 38 disease classes) |
-| Accuracy | 94.61 % validation accuracy |
-| Explainability | Grad-CAM attention visualization |
-| Weather | Real-time data via wttr.in (no API key) |
-| Languages | English + Hindi |
-
----
-
-### What AgriGuard Does
-
-**Detect** — Upload a leaf photo; AI predicts the disease in seconds.
-
-**Explain** — Grad-CAM shows *exactly which part of the leaf* the AI analysed.
-
-**Treat** — Curated chemical + organic treatment options for all 38 classes (English & Hindi).
-
-**Assess Weather** — Real-time weather analysis shows spread risk.
-
-**Calculate Loss** — Estimated crop loss in kg and INR per acre so farmers understand urgency.
-
-**Share** — Download PDF report or share via WhatsApp for consultation.
-
----
-
-
+    ### 👥 EPICS Team & Mentorship
+    - **Faculty Supervisor**: Dr. Anupam Sen
+    - **Institution**: School of Computing Science & Engineering, VIT Bhopal University
     """)
