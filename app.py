@@ -258,17 +258,72 @@ st.markdown("""
 # ═════════════════════════════════════════════════════════════════
 # MODEL
 # ═════════════════════════════════════════════════════════════════
+def create_model_architecture():
+    m = tf.keras.models.Sequential([
+        tf.keras.layers.Input(shape=(128, 128, 3)),
+        tf.keras.layers.Conv2D(32, 3, padding="same", activation="relu", name="conv2d"),
+        tf.keras.layers.Conv2D(32, 3, activation="relu", name="conv2d_1"),
+        tf.keras.layers.MaxPooling2D(name="max_pooling2d"),
+
+        tf.keras.layers.Conv2D(64, 3, padding="same", activation="relu", name="conv2d_2"),
+        tf.keras.layers.Conv2D(64, 3, activation="relu", name="conv2d_3"),
+        tf.keras.layers.MaxPooling2D(name="max_pooling2d_1"),
+
+        tf.keras.layers.Conv2D(128, 3, padding="same", activation="relu", name="conv2d_4"),
+        tf.keras.layers.Conv2D(128, 3, activation="relu", name="conv2d_5"),
+        tf.keras.layers.MaxPooling2D(name="max_pooling2d_2"),
+
+        tf.keras.layers.Conv2D(256, 3, padding="same", activation="relu", name="conv2d_6"),
+        tf.keras.layers.Conv2D(256, 3, activation="relu", name="conv2d_7"),
+        tf.keras.layers.MaxPooling2D(name="max_pooling2d_3"),
+
+        tf.keras.layers.Conv2D(512, 3, padding="same", activation="relu", name="conv2d_8"),
+        tf.keras.layers.Conv2D(512, 3, activation="relu", name="conv2d_9"),
+        tf.keras.layers.MaxPooling2D(name="max_pooling2d_4"),
+
+        tf.keras.layers.Dropout(0.25, name="dropout"),
+        tf.keras.layers.Flatten(name="flatten"),
+        tf.keras.layers.Dense(1500, activation="relu", name="dense"),
+        tf.keras.layers.Dropout(0.4, name="dropout_1"),
+        tf.keras.layers.Dense(38, activation="softmax", name="dense_1"),
+    ])
+    return m
+
 @st.cache_resource
 def load_model():
-    for p in ["trained_model.keras", "trained_model.h5", "trained_model"]:
-        try:
-            m = tf.keras.models.load_model(p, compile=False)
-            # Ensure Sequential models are fully built (required for Keras 3)
-            if not m.built:
-                m.build((None, 128, 128, 3))
-            return m
-        except Exception:
-            continue
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(base_dir, "trained_model.keras"),
+        os.path.join(base_dir, "trained_model.h5"),
+        os.path.join(base_dir, "best_model.weights.h5"),
+        os.path.join(base_dir, "trained_model"),
+        "trained_model.keras",
+        "trained_model.h5",
+        "best_model.weights.h5",
+        "trained_model",
+    ]
+
+    # Method 1: Build architecture + load weights (compatible across ALL Keras 2 & Keras 3 versions)
+    for p in candidates:
+        if os.path.exists(p):
+            try:
+                m = create_model_architecture()
+                m.load_weights(p)
+                return m
+            except Exception:
+                pass
+
+    # Method 2: Direct load_model fallback
+    for p in candidates:
+        if os.path.exists(p):
+            try:
+                m = tf.keras.models.load_model(p, compile=False)
+                if not m.built:
+                    m.build((None, 128, 128, 3))
+                return m
+            except Exception:
+                pass
+
     raise RuntimeError("No model file found.")
 
 model = load_model()
